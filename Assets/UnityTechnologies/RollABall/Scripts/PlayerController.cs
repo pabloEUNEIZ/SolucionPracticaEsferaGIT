@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 using System.Collections;
 
+using UnityEngine.Events;
+
 public class PlayerController : MonoBehaviour {
 	
 	// Create public variables for player speed, and for the Text UI game objects
 	public float speed;
 	public Text countText;
 	public Text winText;
+
+	public UnityEvent OnCuboRecogido;
 
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	private Rigidbody rb;
@@ -54,8 +58,11 @@ public class PlayerController : MonoBehaviour {
 		// ..and if the game object we intersect has the tag 'Pick Up' assigned to it..
 		if (other.gameObject.CompareTag ("Pick Up"))
 		{
-			// Make the other game object (the pick up) inactive, to make it disappear
-			other.gameObject.SetActive (false);
+
+			OnCuboRecogido.Invoke();
+			//GameObject.Find("GameManager").GetComponent<GestionLog>().EscribirLogAlRecoger();
+            // Make the other game object (the pick up) inactive, to make it disappear
+            other.gameObject.SetActive (false);
 
 			// Add one to the score variable 'count'
 			count = count + 1;
